@@ -4,7 +4,7 @@ Interacting with public cloud object storage using boto3 and s3fs libraries.
 
 # 
 
-This repo is based on the following packages :
+This repo is based on:
 
 
 Python v3.7.7 (https://docs.python.org/3.7/)
