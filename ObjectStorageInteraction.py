@@ -92,11 +92,11 @@ class ObjectStorageInteraction():
         # print(client.list_buckets())
         # NOTE: for BIG_DATA analytics:
         # 1) the "client.select_object_content()" is useful for querying CSV, JSON and PARQUET files directly with SQL
-        #    expressions on S3, essentially turning "data-lake" into serverless database - no need to move data to DBRMS
+        #    expressions on AWS S3, essentially turning "data-lake" into serverless database - no need to move data to DBRMS
         #    see - https://aws.amazon.com/blogs/storage/querying-data-without-servers-or-databases-using-amazon-s3-select/
-        # 2) Alternatively, on S3 and other S3-compatible object storage systems; provided by linode, GCP, etc; PySpark can also
-        #    be used to load CSV, JSON and PARQUET files as DataFrames and "PySpark SQL" can then be used to issue SQL expressions
-        #   against the DataFrames just like "client.select_object_content()".
+        # 2) Alternatively, on AWS S3 and other S3-compatible object storage systems; provided by linode, backblaze, GCP, etc; 
+        #    PySpark can also be used to load CSV, JSON and PARQUET files as DataFrames and "PySpark SQL" can then be used 
+        #    to issue SQL expressions against the DataFrames just like "client.select_object_content()".
         #   see - https://spark.apache.org/docs/latest/api/python/pyspark.sql.html
         return {"bucket": bucket, "client": client}
     # End object_storage_interaction_using_boto3() method
