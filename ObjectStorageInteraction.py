@@ -1,4 +1,4 @@
-# ***********************************************************************************************************************************
+# ************************************************************************************************************************
 # * @License Starts
 # *
 # * Copyright © 2015 - present. MongoExpUser
@@ -7,9 +7,9 @@
 # *
 # * @License Ends
 # *
-# ******************************************************************************************************************************************
+# ************************************************************************************************************************
 #
-#  ...ObjectStorageInteraction.py  (released as open-source under MIT License) implements:
+#  ...Ecotert's ObjectStorageInteraction.py  (released as open-source under MIT License) implements:
 #
 #
 #    ObjectStorageInteraction() class for interacting with public clouds' Object Storage using boto3 and s3f3 library.
@@ -18,14 +18,16 @@
 #
 #     (1) Amazon S3 (aws_s3)
 #
-#     (2) Google Cloud Storage (gcp_cs).
+#     (2) Linode Object Storage (linode_objs)
 #
-#     (3) Linode Object Storage (linode_objs)
+#     (3) Backblaze Cloud Storage (b2_cs)
 #
-#     (4) Add others in the future.
+#     (4) Google Cloud Storage (gcp_cs)
 #
-# *******************************************************************************************************************************************
-# *******************************************************************************************************************************************
+#     (5) Add others in the future
+#
+# ************************************************************************************************************************
+# ************************************************************************************************************************
 
 try:
     """  import commonly used modules and check for import error
@@ -45,13 +47,16 @@ class ObjectStorageInteraction():
     A class that implements methods for interacting with public clouds' Object Storage using boto3 and s3f3 library.
     The following public clouds' block storages are covered:
     (1) Amazon S3 (aws_s3)
-    (2) Google Cloud Storage (gcp_cs).
-    (3) Linode Object Storage (linode_objs)
-    (4) Add others in the future.
+    (2) Linode Object Storage (linode_objs)
+    (3) Backblaze Cloud Storage (b2_cs)
+    (4) Google Cloud Storage (gcp_cs)
+    (5) Add others in the future
+
     References:
     ==========
     1) https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html
     2) https://s3fs.readthedocs.io/en/latest/
+
   """
 
     def __init__(self):
@@ -64,12 +69,16 @@ class ObjectStorageInteraction():
     def object_storage_interaction_using_boto3(self, ACCESS_KEY=None, SECRET_KEY=None, REGION_NAME=None, bucket_name=None, provider=None):
         endpoint_url = None
         provider = provider.lower()
-        if(provider == "aws"):
+
+        if provider == "aws":
             endpoint_url = "{}{}{}".format("https://s3.", REGION_NAME, ".amazonaws.com")
-        elif(provider == "linode"):
+        elif provider == "linode":
             endpoint_url = "{}{}{}".format("https://", REGION_NAME, ".linodeobjects.com")
-        elif(provider == "gcp"):
-            endpoint_url_in = "https://storage.googleapis.com"
+        elif provider == "backblaze":
+            endpoint_url = "{}{}{}".format("https://s3.", REGION_NAME, ".backblazeb2.com")
+        elif provider == "gcp":
+            endpoint_url = "https://storage.googleapis.com/"
+
         session = Session(aws_access_key_id=ACCESS_KEY, aws_secret_access_key=SECRET_KEY, region_name=REGION_NAME)
         s3 = session.resource('s3', endpoint_url=endpoint_url, config=Config(signature_version='s3v4'))
         client = session.client(service_name='s3', aws_access_key_id=ACCESS_KEY, aws_secret_access_key=SECRET_KEY, region_name=REGION_NAME, endpoint_url=endpoint_url)
@@ -95,12 +104,16 @@ class ObjectStorageInteraction():
     def object_storage_interaction_using_s3fs(self, ACCESS_KEY=None, SECRET_KEY=None, REGION_NAME=None, bucket_name=None, provider=None):
         endpoint_url = None
         provider = provider.lower()
-        if(provider == "aws"):
+
+        if provider == "aws":
             endpoint_url = "{}{}{}".format("https://s3.", REGION_NAME, ".amazonaws.com")
-        elif(provider == "linode"):
+        elif provider == "linode":
             endpoint_url = "{}{}{}".format("https://", REGION_NAME, ".linodeobjects.com")
-        elif(provider == "gcp"):
-            endpoint_url_in = "https://storage.googleapis.com"
+        elif provider == "backblaze":
+            endpoint_url = "{}{}{}".format("https://s3.", REGION_NAME, ".backblazeb2.com")
+        elif provider == "gcp":
+            endpoint_url = "https://storage.googleapis.com/"
+
         bucket_name_path =  "{}{}".format(bucket_name, "/")
         fs = s3fs.S3FileSystem(anon=False, key=ACCESS_KEY, secret=SECRET_KEY, client_kwargs={'endpoint_url': endpoint_url})
         # from here on, you can interact with the bucket (object storage) like a file system, as desired, see:
