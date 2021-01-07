@@ -87,21 +87,25 @@ class ObjectStorageInteraction():
         # from here on, you can interact with the "client" and "bucket" (object storage) as desired:
         # see:
         # 1. boto3-S3 documentation -> https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html
-        # 2. print examples below: uncomment and test
         
+        # 2. print examples below: uncomment and test
         # for object in bucket.objects.all():
             # print(object.key)
         # print(client.list_buckets())
         
-        # 3. note: for BIG DAT ANALYTICS: the "client.select_object_content()" is useful for querying CSV, JSON and PARQUET files directly with SQL
+        # 3. sample_query() method on line 167 below. 
+        #    sample_query(self, file=None, input_serialization_option=None, client=None, bucket_name=None, file_name=None, sql_query_string=None, sample_one=True)
+        
+        # 4. note: for BIG DAT ANALYTICS: 
+        #   a) the "client.select_object_content()" is useful for querying CSV, JSON and PARQUET files directly with SQL
         #    expressions on AWS S3, essentially turning "data-lake" into serverless database - no need to move data to DBRMS
         #    for refereneces, see:
-        #    1) AWS Storage Blog Article: https://aws.amazon.com/blogs/storage/querying-data-without-servers-or-databases-using-amazon-s3-select/
-        #    2) S3-Select SQL Reference: https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-glacier-select-sql-reference.html
-        #    3) S3-Select AWS SDK for Python (Boto3) - https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html#S3.Client.select_object_content
-        #    4) S3-Select AWS SDK for JavaScript - https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#selectObjectContent-property
-        
-        # 4. alternatively, on AWS S3 and other S3-compatible object storage systems; provided by linode, backblaze, GCP, etc; 
+        #    i)   AWS Storage Blog Article: https://aws.amazon.com/blogs/storage/querying-data-without-servers-or-databases-using-amazon-s3-select/
+        #    ii)  S3-Select SQL Reference: https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-glacier-select-sql-reference.html
+        #    iii) S3-Select AWS SDK for Python (Boto3) - https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html#S3.Client.select_object_content
+        #    iv)  S3-Select AWS SDK for JavaScript - https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#selectObjectContent-property
+        #
+        #    b) alternatively, on AWS S3 and other S3-compatible object storage systems; provided by linode, backblaze, GCP, etc; 
         #    PySpark can also be used to load CSV, JSON and PARQUET files as DataFrames and "PySpark SQL" can then be used 
         #    to issue SQL expressions against the DataFrames just like "client.select_object_content()".
         #    see - https://spark.apache.org/docs/latest/api/python/pyspark.sql.html
