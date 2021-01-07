@@ -139,7 +139,7 @@ class ObjectStorageInteraction():
             print(attr)
     # End check_object_attributes() method
     
-    def serialization_option(self, input_serialization_option=None)
+    def serialization_options(self, input_serialization_option=None)
         input_srl = None
         output_srl = {"JSON": {"RecordDelimiter": '\n'}}
         if input_serialization_option == "parquet":
@@ -149,7 +149,38 @@ class ObjectStorageInteraction():
         elif input_serialization_option == "compressed_json":
             input_srl = {"JSON": {"Type": "DOCUMENT"}, "CompressionType": "GZIP"}
         return {"input_serialization": input_srl, "output_serialization": output_srl}
-    # End serialization_option 
+    # End serialization_options() method 
+    
+    def print_or_view_sql_query_result(self, sql_query_result=None, file_name=None):
+        for result in sql_query_result['Payload']:
+            if 'Records' in result:
+                print()
+                print("Result of", file_name)
+                print( result['Records']['Payload'].decode('utf-8') )
+                print()
+    # End print_or_view_sql_query_result() method 
+        
+    def sample_query(self, file=None, input_serialization_option=None, s3_client=None, bucket_name=None, file_name=None, sql_query_string=None, sample_one=True):
+        serialization =  self.serialization_options(input_serialization_option=input_serialization_option)
+        
+        # note 1 : file_name is a compressed json.file (GZIP) output file of Amazon Comprehend's sentiment analysis.
+        # note 2 : Amazon Comprehend is a natural language processing (NLP) service's - see https://aws.amazon.com/comprehend/
+        
+        if sample_one:
+            sql_query_string = "SELECT obj.Sentiment, obj.File FROM s3object obj  WHERE obj.Sentiment = 'NEUTRAL'"
+        else:
+            sql_query_string_two = "SELECT obj.SentimentScore.Neutral, obj.SentimentScore.Negative FROM s3object obj WHERE obj.SentimentScore.Neutral > 0.65"
+        
+        if sql_query_string:
+            sql_query_result = s3_client.select_object_content(Bucket=bucket_name, 
+                                                               Key=file_name, 
+                                                               ExpressionType='SQL', 
+                                                               Expression= sql_query_string,
+                                                               InputSerialization=serialization.get("input_serialization"), 
+                                                               OutputSerialization=serialization.get("output_serialization")
+                                                              )
+            self.print_or_view_sql_query_result(sql_query_result=sql_query_result, file_name=file_name)
+     # End sample_query() method
         
     def separator(self):
         print("------------------------------------")
