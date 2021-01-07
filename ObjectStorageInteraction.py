@@ -134,7 +134,7 @@ class ObjectStorageInteraction():
         return {"fs": fs,  "bucket_name_path": bucket_name_path}
     # End object_storage_interaction_using_s3fs()method
 
-    def check_object_attributes(self, obj):
+    def check_object_attributes(self, obj=None):
         for attr in dir(obj):
             print(attr)
     # End check_object_attributes() method
