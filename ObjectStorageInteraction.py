@@ -169,7 +169,7 @@ class ObjectStorageInteraction():
         if sample_one:
             sql_query_string = "SELECT obj.Sentiment, obj.File FROM s3object obj  WHERE obj.Sentiment = 'NEUTRAL'"
         else:
-            sql_query_string_two = "SELECT obj.SentimentScore.Neutral, obj.SentimentScore.Negative FROM s3object obj"
+            sql_query_string = "SELECT obj.SentimentScore.Neutral, obj.SentimentScore.Negative FROM s3object obj"
         
         if sql_query_string:
             sql_query_result = s3_client.select_object_content(Bucket=bucket_name, 
