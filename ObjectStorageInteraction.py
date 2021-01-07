@@ -178,13 +178,11 @@ class ObjectStorageInteraction():
             sql_query_string = "SELECT obj.SentimentScore.Neutral, obj.SentimentScore.Negative FROM s3object obj"
         
         if sql_query_string:
-            sql_query_result = client.select_object_content(Bucket=bucket_name, 
-                                                               Key=file_name, 
-                                                               ExpressionType='SQL', 
-                                                               Expression= sql_query_string,
-                                                               InputSerialization=serialization.get("input_serialization"), 
-                                                               OutputSerialization=serialization.get("output_serialization")
-                                                              )
+            sql_query_result = client.select_object_content(Bucket=bucket_name, Key=file_name, 
+                                                            ExpressionType='SQL', Expression= sql_query_string,
+                                                            InputSerialization=serialization.get("input_serialization"), 
+                                                            OutputSerialization=serialization.get("output_serialization")
+                                                           )
             self.print_or_view_sql_query_result(sql_query_result=sql_query_result, file_name=file_name)
      # End sample_query() method
         
