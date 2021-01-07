@@ -96,7 +96,7 @@ class ObjectStorageInteraction():
         # print(client.list_buckets())
         
         # 3. sample_query() method on line 169 below. 
-        #    sample_query(self, file=None, input_serialization_option=None, client=None, bucket_name=None, file_name=None, sql_query_string=None, sample_one=True)
+        #    self.sample_query(file=None, input_serialization_option=None, client=None, bucket_name=None, file_name=None, sql_query_string=None, sample_one=True)
         
         # 4. note: for BIG DAT ANALYTICS: 
         #   a) the "client.select_object_content()" is useful for querying CSV, JSON and PARQUET files directly with SQL
