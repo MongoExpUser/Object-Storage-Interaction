@@ -137,8 +137,20 @@ class ObjectStorageInteraction():
     def check_object_attributes(self, obj):
         for attr in dir(obj):
             print(attr)
-    # Endcheck_object_attributes() method
-
+    # End check_object_attributes() method
+    
+    def serialization_option(self, input_serialization_option=None)
+        input_srl = None
+        output_srl = {"JSON": {"RecordDelimiter": '\n'}}
+        if input_serialization_option == "parquet":
+            input_srl = {"Parquet": {}}
+        elif input_serialization_option == "compressed_csv":
+            input_srl = {"CSV": {"FileHeaderInfo": "Use"}, "CompressionType": "GZIP"}
+        elif input_serialization_option == "compressed_json":
+            input_srl = {"JSON": {"Type": "DOCUMENT"}, "CompressionType": "GZIP"}
+        return {"input_serialization": input_srl, "output_serialization": output_srl}
+    # End serialization_option 
+        
     def separator(self):
         print("------------------------------------")
     # End separator() method
