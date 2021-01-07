@@ -168,7 +168,7 @@ class ObjectStorageInteraction():
         serialization =  self.serialization_options(input_serialization_option=input_serialization_option)
         
         # note 1 : file_name is a compressed json.file (GZIP) output file of Amazon Comprehend's sentiment analysis.
-        # note 2 : Amazon Comprehend is a natural language processing (NLP) service's - see https://aws.amazon.com/comprehend/
+        # note 2 : Amazon Comprehend is a natural language processing (NLP) AIML service - see https://aws.amazon.com/comprehend/
         
         if sample_one:
             sql_query_string = "SELECT obj.Sentiment, obj.File FROM s3object obj  WHERE obj.Sentiment = 'NEUTRAL'"
