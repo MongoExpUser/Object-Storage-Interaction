@@ -56,6 +56,8 @@ class ObjectStorageInteraction():
     ==========
     1) https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html
     2) https://s3fs.readthedocs.io/en/latest/
+    3) https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-glacier-select-sql-reference.html
+    4) https://aws.amazon.com/comprehend/  - Amazon natural language processing (NLP) AIML service.
 
   """
 
@@ -93,7 +95,7 @@ class ObjectStorageInteraction():
             # print(object.key)
         # print(client.list_buckets())
         
-        # 3. sample_query() method on line 167 below. 
+        # 3. sample_query() method on line 169 below. 
         #    sample_query(self, file=None, input_serialization_option=None, client=None, bucket_name=None, file_name=None, sql_query_string=None, sample_one=True)
         
         # 4. note: for BIG DAT ANALYTICS: 
