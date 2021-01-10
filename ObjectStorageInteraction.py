@@ -109,7 +109,7 @@ class ObjectStorageInteraction():
         #
         #    b) alternatively, on AWS S3 and other S3-compatible object storage systems; provided by linode, backblaze, GCP, etc; 
         #    PySpark can also be used to load CSV, JSON and PARQUET files as DataFrames and "PySpark SQL" can then be used 
-        #    to issue SQL expressions against the DataFrames just like "client.select_object_content()".
+        #    to issue SQL expressions or queries against the DataFrames just like "client.select_object_content()".
         #    see - https://spark.apache.org/docs/latest/api/python/pyspark.sql.html
         
         return {"bucket": bucket, "client": client}
