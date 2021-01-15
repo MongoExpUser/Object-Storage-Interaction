@@ -49,9 +49,9 @@ class ObjectStorageInteraction():
     A class that implements methods for interacting with public clouds' Object Storage using boto3 and s3f3 library.
     The following public clouds' block storages are covered:
     (1) Amazon S3 (aws_s3)
-    (2) Linode Object Storage - linode_objs 
+    (2) Linode Object Storage - linode_objs
     (3) Backblaze Cloud Storage  - b2_cs
-    (4) Google Cloud Storage - gcp_cs 
+    (4) Google Cloud Storage - gcp_cs
     (5) CrowdStorage Object Storage (PolyCloud) - crd_objs
     (6) Add others in the future
 
@@ -100,10 +100,10 @@ class ObjectStorageInteraction():
             # print(object.key)
         # print(client.list_buckets())
         
-        # 3. sample_query() method within this class - see line 178 below. 
+        # 3. sample_query() method within this class - see line 178 below.
         #    self.sample_query(file=None, input_serialization_option=None, client=None, bucket_name=None, file_name=None, sql_query_string=None, sample_one=True)
         
-        # 4. note: for BIG DAT ANALYTICS: 
+        # 4. note: for BIG DAT ANALYTICS:
         #   a) the "client.select_object_content()" is useful for querying CSV, JSON and PARQUET files directly with SQL
         #    expressions on AWS S3, essentially turning "data-lake" into serverless database - no need to move data to DBRMS
         #    for refereneces, see:
@@ -112,8 +112,8 @@ class ObjectStorageInteraction():
         #    iii) S3-Select AWS SDK for Python (Boto3) - https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html#S3.Client.select_object_content
         #    iv)  S3-Select AWS SDK for JavaScript - https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#selectObjectContent-property
         #
-        #    b) alternatively, on AWS S3 and other S3-compatible object storage systems; provided by linode, backblaze, GCP, CrowdStorage etc; 
-        #    PySpark can also be used to load CSV, JSON and PARQUET files as DataFrames and "PySpark SQL" can then be used 
+        #    b) alternatively, on AWS S3 and other S3-compatible object storage systems; provided by linode, backblaze, GCP, CrowdStorage etc;
+        #    PySpark can also be used to load CSV, JSON and PARQUET files as DataFrames and "PySpark SQL" can then be used
         #    to issue SQL expressions or queries against the DataFrames just like "client.select_object_content()".
         #    see - https://spark.apache.org/docs/latest/api/python/pyspark.sql.html
         
@@ -139,7 +139,7 @@ class ObjectStorageInteraction():
         fs = s3fs.S3FileSystem(anon=False, key=ACCESS_KEY, secret=SECRET_KEY, client_kwargs={'endpoint_url': endpoint_url})
         
         # from here on, you can interact with the bucket (object storage) like a file system, as desired, see:
-        # 1. https://s3fs.readthedocs.io/en/latest/
+        # 1. https://s3fs.readthedocs.io/en/latest/api.html
         # 2. print examples below: uncomment and test
         # print("-------------------------------------------------------------------------")
         # print("List of objects in bucket: ", fs.ls(bucket_name_path))
@@ -154,7 +154,7 @@ class ObjectStorageInteraction():
             print(attr)
     # End check_object_attributes() method
     
-    def serialization_options(self, input_serialization_option=None)
+    def serialization_options(self, input_serialization_option=None):
         input_srl = None
         output_srl = {"JSON": {"RecordDelimiter": '\n'}}
         if input_serialization_option == "parquet":
@@ -164,7 +164,7 @@ class ObjectStorageInteraction():
         elif input_serialization_option == "compressed_json":
             input_srl = {"JSON": {"Type": "DOCUMENT"}, "CompressionType": "GZIP"}
         return {"input_serialization": input_srl, "output_serialization": output_srl}
-    # End serialization_options() method 
+    # End serialization_options() method
     
     def print_or_view_sql_query_result(self, sql_query_result=None, file_name=None):
         for result in sql_query_result['Payload']:
@@ -173,7 +173,7 @@ class ObjectStorageInteraction():
                 print("Result of", file_name)
                 print( result['Records']['Payload'].decode('utf-8') )
                 print()
-    # End print_or_view_sql_query_result() method 
+    # End print_or_view_sql_query_result() method
         
     def sample_query(self, file=None, input_serialization_option=None, client=None, bucket_name=None, file_name=None, sql_query_string=None, sample_one=True):
         serialization =  self.serialization_options(input_serialization_option=input_serialization_option)
@@ -187,9 +187,9 @@ class ObjectStorageInteraction():
             sql_query_string = "SELECT obj.SentimentScore.Neutral, obj.SentimentScore.Negative FROM s3object obj"
         
         if sql_query_string:
-            sql_query_result = client.select_object_content(Bucket=bucket_name, Key=file_name, 
+            sql_query_result = client.select_object_content(Bucket=bucket_name, Key=file_name,
                                                             ExpressionType='SQL', Expression= sql_query_string,
-                                                            InputSerialization=serialization.get("input_serialization"), 
+                                                            InputSerialization=serialization.get("input_serialization"),
                                                             OutputSerialization=serialization.get("output_serialization")
                                                            )
             self.print_or_view_sql_query_result(sql_query_result=sql_query_result, file_name=file_name)
