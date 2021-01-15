@@ -47,10 +47,11 @@ class ObjectStorageInteraction():
     A class that implements methods for interacting with public clouds' Object Storage using boto3 and s3f3 library.
     The following public clouds' block storages are covered:
     (1) Amazon S3 (aws_s3)
-    (2) Linode Object Storage (linode_objs)
-    (3) Backblaze Cloud Storage (b2_cs)
-    (4) Google Cloud Storage (gcp_cs)
-    (5) Add others in the future
+    (2) Linode Object Storage - linode_objs 
+    (3) Backblaze Cloud Storage  - b2_cs
+    (4) Google Cloud Storage - gcp_cs 
+    (5) CrowdStorage Cloud Storage (PolyCloud) - crd_cs
+    (6) Add others in the future
 
     References:
     ==========
@@ -80,6 +81,8 @@ class ObjectStorageInteraction():
             endpoint_url = "{}{}{}".format("https://s3.", REGION_NAME, ".backblazeb2.com")
         elif provider == "gcp":
             endpoint_url = "https://storage.googleapis.com/"
+        elif provider == "crowd_storage_polycloud":
+            endpoint_url = "https://polycloud.crowdapis.com"
 
         session = Session(aws_access_key_id=ACCESS_KEY, aws_secret_access_key=SECRET_KEY, region_name=REGION_NAME)
         s3 = session.resource('s3', endpoint_url=endpoint_url, config=Config(signature_version='s3v4'))
