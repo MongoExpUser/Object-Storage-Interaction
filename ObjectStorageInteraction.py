@@ -50,7 +50,7 @@ class ObjectStorageInteraction():
     (2) Linode Object Storage - linode_objs 
     (3) Backblaze Cloud Storage  - b2_cs
     (4) Google Cloud Storage - gcp_cs 
-    (5) CrowdStorage Cloud Storage (PolyCloud) - crd_cs
+    (5) CrowdStorage Object Storage (PolyCloud) - crd_objs
     (6) Add others in the future
 
     References:
@@ -81,7 +81,7 @@ class ObjectStorageInteraction():
             endpoint_url = "{}{}{}".format("https://s3.", REGION_NAME, ".backblazeb2.com")
         elif provider == "gcp":
             endpoint_url = "https://storage.googleapis.com/"
-        elif provider == "crowd_storage_polycloud":
+        elif provider == "crowdstorage":
             endpoint_url = "https://polycloud.crowdapis.com"
 
         session = Session(aws_access_key_id=ACCESS_KEY, aws_secret_access_key=SECRET_KEY, region_name=REGION_NAME)
@@ -130,15 +130,19 @@ class ObjectStorageInteraction():
             endpoint_url = "{}{}{}".format("https://s3.", REGION_NAME, ".backblazeb2.com")
         elif provider == "gcp":
             endpoint_url = "https://storage.googleapis.com/"
+        elif provider == "crowdstorage":
+            endpoint_url = "https://polycloud.crowdapis.com"
 
         bucket_name_path =  "{}{}".format(bucket_name, "/")
         fs = s3fs.S3FileSystem(anon=False, key=ACCESS_KEY, secret=SECRET_KEY, client_kwargs={'endpoint_url': endpoint_url})
+        
         # from here on, you can interact with the bucket (object storage) like a file system, as desired, see:
         # 1. https://s3fs.readthedocs.io/en/latest/
         # 2. print examples below: uncomment and test
         # print("-------------------------------------------------------------------------")
         # print("List of objects in bucket: ", fs.ls(bucket_name_path))
-        # print("Space used by all buckets: ", fs.du(bucket_name_path))
+        # print("Space used by bucket: ", fs.du(bucket_name_path))
+        # print("List of objects in bucket, with details/attributes: ", fs.ls(bucket_name_path, detail=True))
         # print("-------------------------------------------------------------------------")
         return {"fs": fs,  "bucket_name_path": bucket_name_path}
     # End object_storage_interaction_using_s3fs()method
