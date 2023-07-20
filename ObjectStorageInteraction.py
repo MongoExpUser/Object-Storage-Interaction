@@ -24,9 +24,7 @@
 #
 #     (4) Google Cloud Storage (gcp_cs)
 #
-#     (5) CrowdStorage Object Storage (PolyCloud) - crd_objs
-#
-#     (6) Add others in the future
+#     (5) Add others in the future
 #
 # ************************************************************************************************************************
 # ************************************************************************************************************************
@@ -52,8 +50,7 @@ class ObjectStorageInteraction():
     (2) Linode Object Storage - linode_objs
     (3) Backblaze Cloud Storage  - b2_cs
     (4) Google Cloud Storage - gcp_cs
-    (5) CrowdStorage Object Storage (PolyCloud) - crd_objs
-    (6) Add others in the future
+    (5) Add others in the future
 
     References:
     ==========
@@ -83,8 +80,6 @@ class ObjectStorageInteraction():
             endpoint_url = "{}{}{}".format("https://s3.", REGION_NAME, ".backblazeb2.com")
         elif provider == "gcp":
             endpoint_url = "https://storage.googleapis.com/"
-        elif provider == "crowdstorage":
-            endpoint_url = "https://polycloud.crowdapis.com"
 
         session = Session(aws_access_key_id=ACCESS_KEY, aws_secret_access_key=SECRET_KEY, region_name=REGION_NAME)
         s3 = session.resource('s3', endpoint_url=endpoint_url, config=Config(signature_version='s3v4'))
@@ -100,12 +95,12 @@ class ObjectStorageInteraction():
             # print(object.key)
         # print(client.list_buckets())
         
-        # 3. sample_query() method within this class - see line 178 below.
+        # 3. sample_query() method within this class - see line 173 below.
         #    self.sample_query(file=None, input_serialization_option=None, client=None, bucket_name=None, file_name=None, sql_query_string=None, sample_one=True)
         
         # 4. note: for BIG DAT ANALYTICS:
         #   a) the "client.select_object_content()" is useful for querying CSV, JSON and PARQUET files directly with SQL
-        #    expressions on AWS S3, essentially turning "data-lake" into serverless database - no need to move data to DBRMS
+        #    expressions on AWS S3, essentially turning "data-lake" into serverless database - no need to move data to a RDBMS
         #    for refereneces, see:
         #    i)   AWS Storage Blog Article: https://aws.amazon.com/blogs/storage/querying-data-without-servers-or-databases-using-amazon-s3-select/
         #    ii)  S3-Select SQL Reference: https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-glacier-select-sql-reference.html
