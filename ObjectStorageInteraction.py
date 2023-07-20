@@ -107,7 +107,7 @@ class ObjectStorageInteraction():
         #    iii) S3-Select AWS SDK for Python (Boto3) - https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html#S3.Client.select_object_content
         #    iv)  S3-Select AWS SDK for JavaScript - https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#selectObjectContent-property
         #
-        #    b) alternatively, on AWS S3 and other S3-compatible object storage systems; provided by linode, backblaze, GCP, CrowdStorage etc;
+        #    b) alternatively, on AWS S3 and other S3-compatible object storage systems; provided by linode, backblaze, GCP, etc;
         #    PySpark can also be used to load CSV, JSON and PARQUET files as DataFrames and "PySpark SQL" can then be used
         #    to issue SQL expressions or queries against the DataFrames just like "client.select_object_content()".
         #    see - https://spark.apache.org/docs/latest/api/python/pyspark.sql.html
