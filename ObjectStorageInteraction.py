@@ -1,31 +1,31 @@
 # ************************************************************************************************************************
-# * @License Starts
-# *
-# * Copyright © 2015 - present. MongoExpUser
-# *
-# *  License: MIT - See: https://opensource.org/licenses/MIT
-# *
-# * @License Ends
-# *
+# * @License Starts                                                                                                      *
+# *                                                                                                                      *
+# * Copyright © 2015 - present. MongoExpUser                                                                             *
+# *                                                                                                                      *
+# *  License: MIT - See: https://opensource.org/licenses/MIT                                                             *
+# *                                                                                                                      *
+# * @License Ends                                                                                                        *
+# *                                                                                                                      *
 # ************************************************************************************************************************
-#
-#  ...Ecotert's ObjectStorageInteraction.py  (released as open-source under MIT License) implements:
-#
-#
-#    ObjectStorageInteraction() class for interacting with public clouds' Object Storage using boto3 and s3f3 library.
-#
-#     The following public clouds' block storages are covered:
-#
-#     (1) Amazon S3 (aws_s3)
-#
-#     (2) Linode Object Storage (linode_objs)
-#
-#     (3) Backblaze Cloud Storage (b2_cs)
-#
-#     (4) Google Cloud Storage (gcp_cs)
-#
-#     (5) Add others in the future
-#
+#                                                                                                                        *
+#  ...Ecotert's ObjectStorageInteraction.py  (released as open-source under MIT License) implements:                     *
+#                                                                                                                        *
+#                                                                                                                        *                                                                                                                       *
+#    ObjectStorageInteraction() class for interacting with public clouds' Object Storage using boto3 and s3f3 library.   *
+#                                                                                                                        *
+#     The following public clouds' block storages are covered:                                                           *
+#                                                                                                                        *
+#     (1) Amazon S3 (aws_s3)                                                                                             *
+#                                                                                                                        *                                                                                                                      *
+#     (2) Linode Object Storage (linode_objs)                                                                            *
+#                                                                                                                        *
+#     (3) Backblaze Cloud Storage (b2_cs)                                                                                *
+#                                                                                                                        *                                                                                                                       *
+#     (4) Google Cloud Storage (gcp_cs)                                                                                  *
+#                                                                                                                        *
+#     (5) Add others in the future                                                                                       *
+#                                                                                                                        *
 # ************************************************************************************************************************
 # ************************************************************************************************************************
 
@@ -35,6 +35,8 @@ try:
     #import
     import sys, boto3, s3fs
     from pprint import pprint
+    from pandasql import sqldf
+    from pandas import read_csv
     from boto3.session import Session
     from botocore.client import Config
     #check for error
@@ -190,5 +192,30 @@ class ObjectStorageInteraction():
         
     def separator(self):
         print("------------------------------------")
-    # End separator() method
-# End ObjectStorageInteraction() class
+
+
+def s3_to_pandas_df_s3fs(self, key=None, secret=None, s3_file_key=None, region=None, bucket_name=None, read_csv=None, sqldf=None):
+    """
+    Read CSV file from S3 into a pandas data frame (df) and run SQL Query against the df. This uses s3fs-supported pandas APIs under the hood.
+    """
+
+    confirm = None
+    if (key and secret and s3_file_key and bucket_name and read_csv and sqldf):
+        confirm = True
+    pprint({ "Confirm?" : confirm })
+
+    if confirm:
+        # read file to data frame
+        full_path = "{}{}{}{}".format("s3://", bucket_name, "/", s3_file_key)
+        storage_options = { "key": key, "secret": secret }
+        df = read_csv(full_path, storage_options=storage_options)
+        pprint(df)
+
+        # run query and print result
+        query = "SELECT * FROM df LIMIT 5;"
+        query_result = sqldf(query)
+        print()
+        print("====================== Query Result Begins ======================")
+        pprint(query_result)
+        print("====================== Query Result Ends ========================")
+        print()
