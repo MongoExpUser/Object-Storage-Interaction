@@ -97,7 +97,7 @@ class ObjectStorageInteraction():
             # print(object.key)
         # print(client.list_buckets())
         
-        # 3. sample_query() method within this class - see line 171 below.
+        # 3. sample_query() method within this class - see line 173 below.
         #    self.sample_query(file=None, input_serialization_option=None, client=None, bucket_name=None, file_name=None, sql_query_string=None, sample_one=True)
         
         # 4. note: for BIG DAT ANALYTICS:
@@ -142,12 +142,12 @@ class ObjectStorageInteraction():
         # print("List of objects in bucket, with details/attributes: ", fs.ls(bucket_name_path, detail=True))
         # print("-------------------------------------------------------------------------")
         return {"fs": fs,  "bucket_name_path": bucket_name_path}
-    # End object_storage_interaction_using_s3fs()method
+
 
     def check_object_attributes(self, obj=None):
         for attr in dir(obj):
             print(attr)
-    # End check_object_attributes() method
+
     
     def serialization_options(self, input_serialization_option=None):
         input_srl = None
@@ -159,7 +159,7 @@ class ObjectStorageInteraction():
         elif input_serialization_option == "compressed_json":
             input_srl = {"JSON": {"Type": "DOCUMENT"}, "CompressionType": "GZIP"}
         return {"input_serialization": input_srl, "output_serialization": output_srl}
-    # End serialization_options() method
+
     
     def print_or_view_sql_query_result(self, sql_query_result=None, file_name=None):
         for result in sql_query_result['Payload']:
@@ -168,7 +168,7 @@ class ObjectStorageInteraction():
                 print("Result of", file_name)
                 print( result['Records']['Payload'].decode('utf-8') )
                 print()
-    # End print_or_view_sql_query_result() method
+
         
     def sample_query(self, file=None, input_serialization_option=None, client=None, bucket_name=None, file_name=None, sql_query_string=None, sample_one=True):
         serialization =  self.serialization_options(input_serialization_option=input_serialization_option)
@@ -188,7 +188,7 @@ class ObjectStorageInteraction():
                                                             OutputSerialization=serialization.get("output_serialization")
                                                            )
             self.print_or_view_sql_query_result(sql_query_result=sql_query_result, file_name=file_name)
-     # End sample_query() method
+
         
     def separator(self):
         print("------------------------------------")
