@@ -67,7 +67,7 @@ class ObjectStorageInteraction():
         print("Initiating Object Storage Interaction Engine.")
         print("=============================================")
         print(ObjectStorageInteraction.__doc__)
-    # End  __init__() method
+
 
     def object_storage_interaction_using_boto3(self, ACCESS_KEY=None, SECRET_KEY=None, REGION_NAME=None, bucket_name=None, provider=None):
         endpoint_url = None
@@ -96,7 +96,7 @@ class ObjectStorageInteraction():
             # print(object.key)
         # print(client.list_buckets())
         
-        # 3. sample_query() method within this class - see line 173 below.
+        # 3. sample_query() method within this class - see line 172 below.
         #    self.sample_query(file=None, input_serialization_option=None, client=None, bucket_name=None, file_name=None, sql_query_string=None, sample_one=True)
         
         # 4. note: for BIG DAT ANALYTICS:
@@ -114,7 +114,7 @@ class ObjectStorageInteraction():
         #    see - https://spark.apache.org/docs/latest/api/python/pyspark.sql.html
         
         return {"bucket": bucket, "client": client}
-    # End object_storage_interaction_using_boto3() method
+
 
     def object_storage_interaction_using_s3fs(self, ACCESS_KEY=None, SECRET_KEY=None, REGION_NAME=None, bucket_name=None, provider=None):
         endpoint_url = None
@@ -193,29 +193,30 @@ class ObjectStorageInteraction():
         print("------------------------------------")
 
 
-def s3_to_pandas_df_s3fs(self, key=None, secret=None, s3_file_key=None, bucket_name=None, read_csv=None, sqldf=None):
-    """
-    Read CSV file from S3 into a pandas data frame (df) and run SQL Query against the df. 
-    Reading CSV file  uses s3fs-supported pandas APIs under the hood.
-    """
+    def s3_to_pandas_df_s3fs(self, key=None, secret=None, s3_file_key=None, bucket_name=None, read_csv=None, sqldf=None):
+        """
+        Read CSV file from S3 into a pandas data frame (df) and run SQL Query against the df. 
+        Reading CSV file uses s3fs-supported pandas APIs under the hood.
+        """
 
-    confirm = None
-    if (key and secret and s3_file_key and bucket_name and read_csv and sqldf):
-        confirm = True
-    pprint({ "Confirm?" : confirm })
+        confirm = None
+        if (key and secret and s3_file_key and bucket_name and read_csv and sqldf):
+            confirm = True
+        pprint({ "Confirm?" : confirm })
 
-    if confirm:
-        # read file to data frame
-        full_path = "{}{}{}{}".format("s3://", bucket_name, "/", s3_file_key)
-        storage_options = { "key": key, "secret": secret }
-        df = read_csv(full_path, storage_options=storage_options)
-        pprint(df)
+        if confirm:
+            # read file to data frame
+            full_path = "{}{}{}{}".format("s3://", bucket_name, "/", s3_file_key)
+            storage_options = { "key": key, "secret": secret }
+            df = read_csv(full_path, storage_options=storage_options)
+            pprint(df)
 
-        # run query and print result
-        query = "SELECT * FROM df LIMIT 5;"
-        query_result = sqldf(query)
-        print()
-        print("====================== Query Result Begins ======================")
-        pprint(query_result)
-        print("====================== Query Result Ends ========================")
-        print()
+            # run query and print result
+            query = "SELECT * FROM df LIMIT 5;"
+            query_result = sqldf(query)
+            print()
+            print("====================== Query Result Begins ======================")
+            pprint(query_result)
+            print("====================== Query Result Ends ========================")
+            print()
+            
