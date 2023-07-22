@@ -194,7 +194,7 @@ class ObjectStorageInteraction():
         print("------------------------------------")
 
 
-def s3_to_pandas_df_s3fs(self, key=None, secret=None, s3_file_key=None, region=None, bucket_name=None, read_csv=None, sqldf=None):
+def s3_to_pandas_df_s3fs(self, key=None, secret=None, s3_file_key=None, bucket_name=None, read_csv=None, sqldf=None):
     """
     Read CSV file from S3 into a pandas data frame (df) and run SQL Query against the df. This uses s3fs-supported pandas APIs under the hood.
     """
