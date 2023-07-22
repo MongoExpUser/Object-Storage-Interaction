@@ -60,8 +60,7 @@ class ObjectStorageInteraction():
     2) https://s3fs.readthedocs.io/en/latest/
     3) https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-glacier-select-sql-reference.html
     4) https://aws.amazon.com/comprehend/  - Amazon natural language processing (NLP) AIML service.
-
-  """
+    """
 
     def __init__(self):
         print()
