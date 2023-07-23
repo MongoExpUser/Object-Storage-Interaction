@@ -36,9 +36,11 @@ try:
     import sys, boto3, s3fs
     from pprint import pprint
     from pandasql import sqldf
+    import dask.dataframe as dd
     from pandas import read_csv
     from boto3.session import Session
     from botocore.client import Config
+    from dask_sql import Context as context
     #check for error
 except(ImportError) as err:
   print(str(err))
@@ -219,4 +221,45 @@ class ObjectStorageInteraction():
             pprint(query_result)
             print("====================== Query Result Ends ========================")
             print()
+
+
+
+
+    def s3_to_dask_df_s3fs(self, key=None, secret=None, s3_file_key=None, bucket_name=None, read_csv=None, context=None):
+        """
+        - Read CSV file from S3 into a "dask" data frame (df). 
+        - Create a TABLE from the df and run SQL Query against the TABLE, with "dask-sqL". 
+        - Reading data with "dask" dataframe and running SQL query with "dask-sql" ensure that multi-cores are used (like spark/pyspark) on multi-cores system, speeding up computation
+          Dask Ref 1: https://docs.dask.org/en/latest/ (Main Page)
+          Dask Ref 2: https://dask-sql.readthedocs.io/en/latest/api.html#dask_sql.Context.create_table
+          Dask Ref 3: https://dask-sql.readthedocs.io/en/latest/data_input.html
+         Dask Ref 4: https://dask-sql.readthedocs.io/en/latest/machine_learning.html
+        """
+    
+        confirm = None
+        if (key and secret and s3_file_key and bucket_name and read_csv and sqldf):
+            confirm = True
+        pprint({ "Confirm?" : confirm })
+    
+        if confirm:
+            # read file to data frame
+            read_csv = dd.read_csv
+            full_path = "{}{}{}{}".format("s3://", bucket_name, "/", s3_file_key)
+            storage_options = { "key": key, "secret": secret }
+            df = read_csv(full_path, storage_options=storage_options) # from s3
+            print(df.head())
+    
+            c = context()
+            c.create_table("sample_table", df)
+    
+            # run query and print result
+            query = "SELECT * FROM sample_table LIMIT 5;"
+            query_result = c.sql(query)
+            print()
+            print("====================== Query Result Begins ======================")
+            print(query_result.head())
+            print("====================== Query Result Ends ========================")
+            print()
+
+
             
