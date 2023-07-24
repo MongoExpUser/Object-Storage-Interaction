@@ -30,7 +30,8 @@
 # ************************************************************************************************************************
 
 try:
-    """  import commonly used modules and check for import error
+    """  
+    import commonly used modules and check for import error
     """
     #import
     import sys, boto3, s3fs
@@ -221,14 +222,14 @@ class ObjectStorageInteraction():
 
     def s3_to_dask_df_s3fs(self, key=None, secret=None, s3_file_key=None, bucket_name=None, read_csv=None, context=None):
         """
-            - Read CSV file from S3 into a "dask" data frame (df). Note that "parquet" file is also supported by dask.
-            - Create a TABLE from the df and run SQL Query against the TABLE, with "dask-sqL". 
-            - Reading data with "dask" dataframe and running SQL query with "dask-sql" ensure that:
-              a) multi-cores are used (like spark/pyspark) on multi-cores system, speeding up computation
-            - Dask Ref 1: https://docs.dask.org/en/latest/ (Main Page)
-            - Dask Ref 2: https://dask-sql.readthedocs.io/en/latest/api.html#dask_sql.Context.create_table
-            - Dask Ref 3: https://dask-sql.readthedocs.io/en/latest/data_input.html
-            - Dask Ref 4: https://dask-sql.readthedocs.io/en/latest/machine_learning.html
+        - Read CSV file from S3 into a "dask" data frame (df). Note that "parquet" file is also supported by dask.
+        - Create a TABLE from the df and run SQL Query against the TABLE, with "dask-sqL". 
+        - Reading data with "dask" dataframe and running SQL query with "dask-sql" ensure that:
+            a) multi-cores are used (like spark/pyspark) on multi-cores system, speeding up computation
+        - Dask Ref 1: https://docs.dask.org/en/latest/ (Main Page)
+        - Dask Ref 2: https://dask-sql.readthedocs.io/en/latest/api.html#dask_sql.Context.create_table
+        - Dask Ref 3: https://dask-sql.readthedocs.io/en/latest/data_input.html
+        - Dask Ref 4: https://dask-sql.readthedocs.io/en/latest/machine_learning.html
         """
     
         confirm = None
