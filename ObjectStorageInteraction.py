@@ -246,7 +246,9 @@ class ObjectStorageInteraction():
 
             # create table
             c = context()
-            c.create_table("sample_table", df)
+            # by default (persist=False), the data is lazily loaded
+            # persist value of "True" loads the file's data directly into memory
+            c.create_table("sample_table", df, persist=True) 
     
             # run query against table and print result
             query = "SELECT * FROM sample_table LIMIT 5;"
