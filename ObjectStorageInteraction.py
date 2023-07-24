@@ -221,7 +221,7 @@ class ObjectStorageInteraction():
 
     def s3_to_dask_df_s3fs(self, key=None, secret=None, s3_file_key=None, bucket_name=None, read_csv=None, context=None):
         """
-            - Read CSV file from S3 into a "dask" data frame (df). 
+            - Read CSV file from S3 into a "dask" data frame (df). Note that "parquet" file is also supported by dask.
             - Create a TABLE from the df and run SQL Query against the TABLE, with "dask-sqL". 
             - Reading data with "dask" dataframe and running SQL query with "dask-sql" ensure that:
               a) multi-cores are used (like spark/pyspark) on multi-cores system, speeding up computation
